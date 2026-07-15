@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+\<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="280dp"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/panel_background"
     android:padding="12dp"
     android:elevation="8dp">
 
-    <!-- 标题栏 -->
+    <!-- 标题栏（可拖动把手） -->
     <LinearLayout
+        android:id="@+id/panel_drag_handle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -43,22 +44,67 @@
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
 
-    <!-- 温度 -->
+    <!-- 双区温度 -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:layout_marginVertical="4dp">
-        <TextView android:layout_width="40dp" android:layout_height="wrap_content"
-            android:text="温度" android:textSize="13sp" android:textColor="@color/text_secondary"/>
-        <Button android:id="@+id/btn_temp_down" android:layout_width="36dp"
-            android:layout_height="36dp" android:text="−" android:textSize="18sp"
-            android:padding="0dp" android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
-        <TextView android:id="@+id/tv_temperature" android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="1"
-            android:gravity="center" android:text="24°C" android:textSize="20sp"
-            android:textStyle="bold" android:textColor="@color/ac_blue"/>
-        <Button android:id="@+id/btn_temp_up" android:layout_width="36dp"
-            android:layout_height="36dp" android:text="＋" android:textSize="18sp"
-            android:padding="0dp" android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+        android:orientation="horizontal" android:layout_marginVertical="4dp">
+
+        <!-- 主驾 -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="主驾" android:textSize="12sp" android:textColor="@color/text_secondary"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btn_driver_temp_down"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="−" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+                <TextView android:id="@+id/tv_driver_temp"
+                    android:layout_width="52dp" android:layout_height="wrap_content"
+                    android:gravity="center" android:text="24°C"
+                    android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/ac_blue"/>
+                <Button android:id="@+id/btn_driver_temp_up"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="＋" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- AUTO 按钮（居中） -->
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center"
+            android:layout_marginHorizontal="8dp">
+            <Button android:id="@+id/btn_auto_temp"
+                android:layout_width="52dp" android:layout_height="52dp"
+                android:text="AUTO" android:textSize="11sp" android:padding="0dp"
+                android:backgroundTint="#CCCCCC" android:textColor="#333333"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- 副驾 -->
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="副驾" android:textSize="12sp" android:textColor="@color/text_secondary"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btn_pass_temp_down"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="−" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+                <TextView android:id="@+id/tv_pass_temp"
+                    android:layout_width="52dp" android:layout_height="wrap_content"
+                    android:gravity="center" android:text="24°C"
+                    android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/ac_blue"/>
+                <Button android:id="@+id/btn_pass_temp_up"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="＋" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
     <!-- 风速 -->
@@ -105,16 +151,6 @@
             android:layout_weight="1" android:text="内循环"
             android:textSize="13sp" android:textColor="@color/text_secondary"/>
         <Switch android:id="@+id/switch_circulation" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:checked="true"/>
-    </LinearLayout>
-
-    <!-- AC 制冷 -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
-        android:orientation="horizontal" android:gravity="center_vertical">
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="AC 制冷"
-            android:textSize="13sp" android:textColor="@color/text_secondary"/>
-        <Switch android:id="@+id/switch_ac_cooling" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:checked="true"/>
     </LinearLayout>
 
