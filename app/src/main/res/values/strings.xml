@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">空调控制</string>
+    <string name="btn_start">启动悬浮面板</string>
+    <string name="btn_stop">停止悬浮面板</string>
+    <string name="permission_granted">悬浮窗权限：已授权 ✓</string>
+    <string name="permission_denied">悬浮窗权限：未授权，请点击启动按钮授权</string>
+</resources>
