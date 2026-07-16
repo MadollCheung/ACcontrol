@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@drawable/panel_background"
     android:padding="12dp"
-    android:elevation="8dp">
+    android:elevation="8dp"
+    android:alpha="0.5>
 
     <!-- ① 标题栏 / 拖动区 -->
     <LinearLayout
