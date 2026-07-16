@@ -77,8 +77,8 @@
             <!-- 竖向 SeekBar：height 给足让滑块有空间，rotation=270 -->
             <SeekBar
                 android:id="@+id/seekbar_driver_temp"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
@@ -134,8 +134,8 @@
 
             <SeekBar
                 android:id="@+id/seekbar_pass_temp"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
