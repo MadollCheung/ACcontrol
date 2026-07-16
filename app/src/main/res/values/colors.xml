@@ -9,4 +9,5 @@
     <color name="divider">#E0E0E0</color>
     <color name="panel_bg">#FFFFFFFF</color>
     <color name="icon_bg">#CC1976D2</color>
+    <color name="your_color">#1976D2</color>  <!-- Add this line -->
 </resources>
