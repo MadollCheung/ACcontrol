@@ -79,7 +79,7 @@
             <SeekBar
                 android:id="@+id/seekbar_driver_temp"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_height="100dp"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
@@ -136,7 +136,7 @@
             <SeekBar
                 android:id="@+id/seekbar_pass_temp"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_height="100dp"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
