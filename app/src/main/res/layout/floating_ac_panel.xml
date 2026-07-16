@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:max="15"
                 android:progress="7"
-                android:rotation="270"
+                android:rotation="90"
                 android:layout_marginBottom="8dp"/>
 
             <!-- 温度值显示在滑块下方 -->
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:max="15"
                 android:progress="7"
-                android:rotation="270"
+                android:rotation="90"
                 android:layout_marginBottom="8dp"/>
 
             <TextView
