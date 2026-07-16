@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="280dp"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/panel_background"
     android:padding="12dp"
     android:elevation="8dp">
 
-    <!-- 标题栏 -->
     <LinearLayout
+        android:id="@+id/panel_drag_handle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="❄ 空调控制"
+            android:text="AC Control"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"/>
@@ -33,7 +33,7 @@
             android:id="@+id/btn_close_panel"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="✕"
+            android:text="X"
             android:textSize="12sp"
             android:padding="0dp"
             android:backgroundTint="#EEEEEE"
@@ -43,54 +43,93 @@
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
 
-    <!-- 温度 -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:gravity="center_vertical"
-        android:layout_marginVertical="4dp">
-        <TextView android:layout_width="40dp" android:layout_height="wrap_content"
-            android:text="温度" android:textSize="13sp" android:textColor="@color/text_secondary"/>
-        <Button android:id="@+id/btn_temp_down" android:layout_width="36dp"
-            android:layout_height="36dp" android:text="−" android:textSize="18sp"
-            android:padding="0dp" android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
-        <TextView android:id="@+id/tv_temperature" android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="1"
-            android:gravity="center" android:text="24°C" android:textSize="20sp"
-            android:textStyle="bold" android:textColor="@color/ac_blue"/>
-        <Button android:id="@+id/btn_temp_up" android:layout_width="36dp"
-            android:layout_height="36dp" android:text="＋" android:textSize="18sp"
-            android:padding="0dp" android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+        android:orientation="horizontal" android:layout_marginVertical="4dp">
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Driver" android:textSize="12sp" android:textColor="@color/text_secondary"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btn_driver_temp_down"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="-" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+                <TextView android:id="@+id/tv_driver_temp"
+                    android:layout_width="52dp" android:layout_height="wrap_content"
+                    android:gravity="center" android:text="24C"
+                    android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/ac_blue"/>
+                <Button android:id="@+id/btn_driver_temp_up"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="+" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="vertical" android:gravity="center"
+            android:layout_marginHorizontal="8dp">
+            <Button android:id="@+id/btn_auto_temp"
+                android:layout_width="52dp" android:layout_height="52dp"
+                android:text="AUTO" android:textSize="11sp" android:padding="0dp"
+                android:backgroundTint="#CCCCCC" android:textColor="#333333"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Pass" android:textSize="12sp" android:textColor="@color/text_secondary"/>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical">
+                <Button android:id="@+id/btn_pass_temp_down"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="-" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+                <TextView android:id="@+id/tv_pass_temp"
+                    android:layout_width="52dp" android:layout_height="wrap_content"
+                    android:gravity="center" android:text="24C"
+                    android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/ac_blue"/>
+                <Button android:id="@+id/btn_pass_temp_up"
+                    android:layout_width="32dp" android:layout_height="32dp"
+                    android:text="+" android:textSize="16sp" android:padding="0dp"
+                    android:backgroundTint="@color/colorPrimary" android:textColor="#fff"/>
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- 风速 -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="horizontal" android:gravity="center_vertical"
         android:layout_marginVertical="4dp">
         <TextView android:layout_width="40dp" android:layout_height="wrap_content"
-            android:text="风速" android:textSize="13sp" android:textColor="@color/text_secondary"/>
+            android:text="Fan" android:textSize="13sp" android:textColor="@color/text_secondary"/>
         <SeekBar android:id="@+id/seekbar_fan_speed" android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="1"
             android:max="5" android:progress="2" android:layout_marginHorizontal="8dp"/>
         <TextView android:id="@+id/tv_fan_label" android:layout_width="36dp"
             android:layout_height="wrap_content" android:gravity="end"
-            android:text="2档" android:textSize="12sp" android:textColor="@color/text_secondary"/>
+            android:text="2" android:textSize="12sp" android:textColor="@color/text_secondary"/>
     </LinearLayout>
 
-    <!-- 出风模式 -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="horizontal" android:gravity="center_vertical"
         android:layout_marginVertical="4dp">
         <TextView android:layout_width="40dp" android:layout_height="wrap_content"
-            android:text="出风" android:textSize="13sp" android:textColor="@color/text_secondary"/>
+            android:text="Mode" android:textSize="13sp" android:textColor="@color/text_secondary"/>
         <RadioGroup android:id="@+id/rg_blow_mode" android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="1"
             android:orientation="horizontal">
             <RadioButton android:id="@+id/rb_face" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="吹脸" android:textSize="12sp"/>
+                android:layout_height="wrap_content" android:text="Face" android:textSize="12sp"/>
             <RadioButton android:id="@+id/rb_feet" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="吹脚" android:textSize="12sp"
+                android:layout_height="wrap_content" android:text="Feet" android:textSize="12sp"
                 android:layout_marginStart="6dp"/>
             <RadioButton android:id="@+id/rb_defrost" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:text="除霜" android:textSize="12sp"
+                android:layout_height="wrap_content" android:text="Defrost" android:textSize="12sp"
                 android:layout_marginStart="6dp"/>
         </RadioGroup>
     </LinearLayout>
@@ -98,69 +137,13 @@
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
 
-    <!-- 内循环 -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
         android:orientation="horizontal" android:gravity="center_vertical">
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="内循环"
+            android:layout_weight="1" android:text="Inner Circ"
             android:textSize="13sp" android:textColor="@color/text_secondary"/>
         <Switch android:id="@+id/switch_circulation" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:checked="true"/>
     </LinearLayout>
 
-    <!-- AC 制冷 -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
-        android:orientation="horizontal" android:gravity="center_vertical">
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="AC 制冷"
-            android:textSize="13sp" android:textColor="@color/text_secondary"/>
-        <Switch android:id="@+id/switch_ac_cooling" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:checked="true"/>
-    </LinearLayout>
-    <View
-        android:id="@+id/panel_drag_handle"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/your_color" />
-    
-    <TextView
-        android:id="@+id/tv_driver_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AUTO" />
-    
-    <TextView
-        android:id="@+id/tv_pass_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AUTO" />
-    <Button
-        android:id="@+id/btn_driver_temp_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+" />
-    
-    <Button
-        android:id="@+id/btn_driver_temp_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-" />
-    
-    <Button
-        android:id="@+id/btn_pass_temp_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+" />
-    
-    <Button
-        android:id="@+id/btn_pass_temp_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-" />
-    
-    <Button
-        android:id="@+id/btn_auto_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AUTO" />
 </LinearLayout>
