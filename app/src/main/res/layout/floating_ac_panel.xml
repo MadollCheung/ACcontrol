@@ -14,7 +14,8 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="#F0F0F0">
+        android:background="#F0F0F0"
+        android:alpha="0.5"/>
 
         <TextView
             android:layout_width="0dp"
@@ -78,11 +79,11 @@
             <SeekBar
                 android:id="@+id/seekbar_driver_temp"
                 android:layout_width="130dp"
-                android:layout_height="300dp"
+                android:layout_height="130dp"
                 android:max="15"
                 android:progress="7"
-                android:rotation="-270"
-                android:layout_marginBottom="30dp"/>
+                android:rotation="90"
+                android:layout_marginBottom="1dp"/>
 
             <!-- 温度值显示在滑块下方 -->
             <TextView
@@ -135,7 +136,7 @@
             <SeekBar
                 android:id="@+id/seekbar_pass_temp"
                 android:layout_width="130dp"
-                android:layout_height="100dp"
+                android:layout_height="130dp"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
