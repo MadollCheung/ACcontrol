@@ -81,7 +81,7 @@
                 android:layout_height="300dp"
                 android:max="15"
                 android:progress="7"
-                android:rotation="90"
+                android:rotation="-270"
                 android:layout_marginBottom="30dp"/>
 
             <!-- 温度值显示在滑块下方 -->
@@ -135,16 +135,16 @@
             <SeekBar
                 android:id="@+id/seekbar_pass_temp"
                 android:layout_width="130dp"
-                android:layout_height="300dp"
+                android:layout_height="100dp"
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginBottom="1dp"/>
 
             <TextView
                 android:id="@+id/tv_pass_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="25°C"
                 android:textSize="20sp"
                 android:textStyle="bold"
