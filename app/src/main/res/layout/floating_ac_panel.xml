@@ -134,5 +134,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AUTO" />
-
+    <Button
+        android:id="@+id/btn_driver_temp_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+" />
+    
+    <Button
+        android:id="@+id/btn_driver_temp_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-" />
+    
+    <Button
+        android:id="@+id/btn_pass_temp_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+" />
+    
+    <Button
+        android:id="@+id/btn_pass_temp_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-" />
+    
+    <Button
+        android:id="@+id/btn_auto_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AUTO" />
 </LinearLayout>
