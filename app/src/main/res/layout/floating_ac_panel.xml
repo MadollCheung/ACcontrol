@@ -48,12 +48,12 @@
         android:layout_marginTop="8dp" android:layout_marginBottom="4dp"
         android:background="@color/divider"/>
 
-    <!-- ② 温度区：主驾SeekBar | AUTO | 副驾SeekBar -->
+    <!-- ② 温度区：主驾 SeekBar | AUTO | 副驾 SeekBar -->
+    <!--    SeekBar rotation=270：往上滑 progress 增大 → 温度降低(32-p)，最小17°C -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:layout_marginVertical="4dp">
 
         <!-- 主驾 -->
@@ -62,34 +62,37 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal">
 
+            <!-- 主驾标签 16sp -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="主驾"
-                android:textSize="11sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/ac_blue"
+                android:layout_marginBottom="8dp"/>
 
+            <!-- 竖向 SeekBar：height 给足让滑块有空间，rotation=270 -->
+            <SeekBar
+                android:id="@+id/seekbar_driver_temp"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:max="15"
+                android:progress="7"
+                android:rotation="270"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- 温度值显示在滑块下方 -->
             <TextView
                 android:id="@+id/tv_driver_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="24°C"
+                android:text="25°C"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/ac_blue"
-                android:layout_marginBottom="6dp"/>
-
-            <!-- 竖向 SeekBar（旋转90度实现上下滑动） -->
-            <SeekBar
-                android:id="@+id/seekbar_driver_temp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:max="16"
-                android:progress="8"
-                android:rotation="270"/>
+                android:textColor="@color/ac_blue"/>
 
         </LinearLayout>
 
@@ -118,33 +121,34 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="副驾"
-                android:textSize="11sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="4dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/ac_blue"
+                android:layout_marginBottom="8dp"/>
+
+            <SeekBar
+                android:id="@+id/seekbar_pass_temp"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:max="15"
+                android:progress="7"
+                android:rotation="270"
+                android:layout_marginBottom="8dp"/>
 
             <TextView
                 android:id="@+id/tv_pass_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="24°C"
+                android:text="25°C"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/ac_blue"
-                android:layout_marginBottom="6dp"/>
-
-            <SeekBar
-                android:id="@+id/seekbar_pass_temp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:max="16"
-                android:progress="8"
-                android:rotation="270"/>
+                android:textColor="@color/ac_blue"/>
 
         </LinearLayout>
 
@@ -190,7 +194,7 @@
 
     </LinearLayout>
 
-    <!-- ④ 模式（原"出风"） -->
+    <!-- ④ 模式 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -244,31 +248,14 @@
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
 
-    <!-- ⑤ 内循环 — 切换按钮（非 Switch） -->
-    <LinearLayout
+    <!-- ⑤ 内循环 — 全宽切换按钮，无 TextView -->
+    <Button
+        android:id="@+id/btn_circulation"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="内循环"
-            android:textSize="13sp"
-            android:textColor="@color/text_secondary"/>
-
-        <Button
-            android:id="@+id/btn_circulation"
-            android:layout_width="72dp"
-            android:layout_height="32dp"
-            android:text="内循环"
-            android:textSize="12sp"
-            android:padding="0dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="#FFFFFF"/>
-
-    </LinearLayout>
+        android:text="内循环"
+        android:textSize="14sp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
