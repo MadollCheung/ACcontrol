@@ -117,22 +117,22 @@
         <Switch android:id="@+id/switch_ac_cooling" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:checked="true"/>
     </LinearLayout>
+    <View
+        android:id="@+id/panel_drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/your_color" />
+    
+    <TextView
+        android:id="@+id/tv_driver_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AUTO" />
+    
+    <TextView
+        android:id="@+id/tv_pass_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AUTO" />
 
 </LinearLayout>
-<View
-    android:id="@+id/panel_drag_handle"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@color/your_color" />
-
-<TextView
-    android:id="@+id/tv_driver_temp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="AUTO" />
-
-<TextView
-    android:id="@+id/tv_pass_temp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="AUTO" />
