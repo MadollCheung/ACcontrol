@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="#F0F0F0"
-        android:alpha="0.5"/>
+        android:alpha="0.5">
 
         <TextView
             android:layout_width="0dp"
