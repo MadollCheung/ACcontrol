@@ -272,7 +272,9 @@ class FloatingWindowService : Service() {
             btn.setTextColor(0xFF333333.toInt())
             tvD.text = "${state.driverTemp}°C"
             tvP.text = "${state.passengerTemp}°C"
-            sbD.isEnabled = true; sbP.isEnabled = true
+            sbD.isEnabled = true
+            // 副驾只有双区开启时才能独立调节
+            sbP.isEnabled = state.isDualZone
         }
     }
 
@@ -280,11 +282,13 @@ class FloatingWindowService : Service() {
     private fun fanLabel(n: Int) = if (n == 0) "自动" else n.toString()
 
     private fun updateEnabled(v: View) {
-        val on = state.isPowerOn; val auto = state.isAutoTemp
+        val on = state.isPowerOn; val auto = state.isAutoTemp; val dual = state.isDualZone
         listOf(R.id.seekbar_fan_speed, R.id.rg_blow_mode, R.id.btn_circulation, R.id.btn_auto_temp, R.id.btn_dual_zone)
             .forEach { id -> v.findViewById<View>(id).isEnabled = on }
-        listOf(R.id.seekbar_driver_temp, R.id.seekbar_pass_temp)
-            .forEach { id -> v.findViewById<View>(id).isEnabled = on && !auto }
+        // 主驾：开机且非AUTO可调
+        v.findViewById<View>(R.id.seekbar_driver_temp).isEnabled = on && !auto
+        // 副驾：开机 且 非AUTO 且 双区开启 才可调
+        v.findViewById<View>(R.id.seekbar_pass_temp).isEnabled = on && !auto && dual
     }
 
     private fun overlayType() =
