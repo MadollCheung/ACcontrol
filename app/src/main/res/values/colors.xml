@@ -10,4 +10,5 @@
     <color name="panel_bg">#FFFFFFFF</color>
     <color name="icon_bg">#CC1976D2</color>
     <color name="your_color">#1976D2</color>  <!-- Add this line -->
+    <color name="ac_red">#F7004E</color>
 </resources>
