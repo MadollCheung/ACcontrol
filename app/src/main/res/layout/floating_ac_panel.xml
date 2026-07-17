@@ -84,8 +84,8 @@
                 android:progress="7"
                 android:rotation="90"
                 android:layout_marginBottom="1dp"
-                android:progressTint="@color/red"
-                android:progressBackgroundTint="@color/ac_bule"/>
+                android:progressTint="@color/ac_red"
+                android:progressBackgroundTint="@color/ac_blue"/>
 
             <!-- 温度值显示在滑块下方 -->
             <TextView
@@ -143,8 +143,8 @@
                 android:progress="7"
                 android:rotation="90"
                 android:layout_marginBottom="1dp"
-                android:progressTint="@color/red"
-                android:progressBackgroundTint="@color/ac_bule"/>
+                android:progressTint="@color/ac_red"
+                android:progressBackgroundTint="@color/ac_blue"/>
 
             <TextView
                 android:id="@+id/tv_pass_temp"
