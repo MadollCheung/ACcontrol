@@ -23,9 +23,11 @@ class FloatingWindowService : Service() {
     private val state = AcState()
     private val ctrl = AcController()
 
-    // 温度范围：16~32°C，SeekBar max=16，progress 0=32°C，16=16°C
-    private fun progressToTemp(p: Int) = 32 - p
-    private fun tempToProgress(t: Int) = 32 - t
+    // 温度范围 17~32°C，SeekBar max=15
+    // progress=0  → 32°C（滑到顶，rotation=270 时是视觉最高位）
+    // progress=15 → 17°C（滑到底，视觉最低位）
+    private fun progressToTemp(p: Int) = 32 - p          // 0→32, 15→17
+    private fun tempToProgress(t: Int) = 32 - t          // 32→0, 17→15
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -66,9 +68,7 @@ class FloatingWindowService : Service() {
         var sx = 0; var sy = 0; var tx = 0f; var ty = 0f; var drag = false
         iconView.setOnTouchListener { _, e ->
             when (e.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    sx = lp.x; sy = lp.y; tx = e.rawX; ty = e.rawY; drag = false; true
-                }
+                MotionEvent.ACTION_DOWN -> { sx = lp.x; sy = lp.y; tx = e.rawX; ty = e.rawY; drag = false; true }
                 MotionEvent.ACTION_MOVE -> {
                     val dx = (e.rawX - tx).toInt(); val dy = (e.rawY - ty).toInt()
                     if (dx * dx + dy * dy > 25) drag = true
@@ -110,18 +110,16 @@ class FloatingWindowService : Service() {
 
     private fun bindPanel(v: View) {
 
-        // ── 关闭按钮 ──────────────────────────────────────────
+        // 关闭
         v.findViewById<Button>(R.id.btn_close_panel).setOnClickListener { closePanel() }
 
-        // ── 标题栏拖动 ────────────────────────────────────────
-        val dragHandle = v.findViewById<View>(R.id.panel_drag_handle)
+        // 标题栏拖动
+        val drag = v.findViewById<View>(R.id.panel_drag_handle)
         var psx = 0; var psy = 0; var ptx = 0f; var pty = 0f
-        dragHandle.setOnTouchListener { _, e ->
+        drag.setOnTouchListener { _, e ->
             val lp = panelLp ?: return@setOnTouchListener false
             when (e.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    psx = lp.x; psy = lp.y; ptx = e.rawX; pty = e.rawY; true
-                }
+                MotionEvent.ACTION_DOWN -> { psx = lp.x; psy = lp.y; ptx = e.rawX; pty = e.rawY; true }
                 MotionEvent.ACTION_MOVE -> {
                     lp.x = psx + (e.rawX - ptx).toInt()
                     lp.y = psy + (e.rawY - pty).toInt()
@@ -131,16 +129,14 @@ class FloatingWindowService : Service() {
             }
         }
 
-        // ── 电源开关 ──────────────────────────────────────────
+        // 电源
         val swPower = v.findViewById<Switch>(R.id.switch_ac_power)
         swPower.isChecked = state.isPowerOn
         swPower.setOnCheckedChangeListener { _, c ->
-            state.isPowerOn = c
-            ctrl.setPower(c)
-            updateEnabled(v)
+            state.isPowerOn = c; ctrl.setPower(c); updateEnabled(v)
         }
 
-        // ── 主驾温度 SeekBar（竖向，rotation=270） ───────────
+        // 主驾温度 SeekBar
         val tvDriver = v.findViewById<TextView>(R.id.tv_driver_temp)
         val sbDriver = v.findViewById<SeekBar>(R.id.seekbar_driver_temp)
         tvDriver.text = formatTemp(state.driverTemp, state.isAutoTemp)
@@ -157,7 +153,7 @@ class FloatingWindowService : Service() {
             }
         })
 
-        // ── 副驾温度 SeekBar ──────────────────────────────────
+        // 副驾温度 SeekBar
         val tvPass = v.findViewById<TextView>(R.id.tv_pass_temp)
         val sbPass = v.findViewById<SeekBar>(R.id.seekbar_pass_temp)
         tvPass.text = formatTemp(state.passengerTemp, state.isAutoTemp)
@@ -174,7 +170,7 @@ class FloatingWindowService : Service() {
             }
         })
 
-        // ── AUTO 按钮 ─────────────────────────────────────────
+        // AUTO 按钮
         val btnAuto = v.findViewById<Button>(R.id.btn_auto_temp)
         updateAutoBtn(btnAuto, tvDriver, tvPass, sbDriver, sbPass)
         btnAuto.setOnClickListener {
@@ -184,21 +180,20 @@ class FloatingWindowService : Service() {
             updateEnabled(v)
         }
 
-        // ── 风速 SeekBar ──────────────────────────────────────
+        // 风速
         val seekFan = v.findViewById<SeekBar>(R.id.seekbar_fan_speed)
         val tvFan   = v.findViewById<TextView>(R.id.tv_fan_label)
         seekFan.progress = state.fanSpeed
         tvFan.text = fanLabel(state.fanSpeed)
         seekFan.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(sb: SeekBar, p: Int, u: Boolean) {
-                state.fanSpeed = p
-                tvFan.text = fanLabel(p)
+                state.fanSpeed = p; tvFan.text = fanLabel(p)
             }
             override fun onStartTrackingTouch(sb: SeekBar) {}
             override fun onStopTrackingTouch(sb: SeekBar) { ctrl.setFanSpeed(state.fanSpeed) }
         })
 
-        // ── 出风模式 ──────────────────────────────────────────
+        // 出风模式
         val rgBlow = v.findViewById<RadioGroup>(R.id.rg_blow_mode)
         when (state.blowMode) {
             0 -> rgBlow.check(R.id.rb_face)
@@ -210,7 +205,7 @@ class FloatingWindowService : Service() {
             ctrl.setBlowMode(state.blowMode)
         }
 
-        // ── 内循环切换按钮 ────────────────────────────────────
+        // 内循环全宽切换按钮
         val btnCirc = v.findViewById<Button>(R.id.btn_circulation)
         updateCircBtn(btnCirc)
         btnCirc.setOnClickListener {
@@ -219,10 +214,41 @@ class FloatingWindowService : Service() {
             updateCircBtn(btnCirc)
         }
 
+
+        // 双区空调切换按钮
+        val btnDual = v.findViewById<Button>(R.id.btn_dual_zone)
+        updateDualZoneBtn(btnDual)
+        btnDual.setOnClickListener {
+            state.isDualZone = !state.isDualZone
+            ctrl.setDualZone(state.isDualZone)
+            updateDualZoneBtn(btnDual)
+            // 单区时副驾跟随主驾
+            val sbPass = v.findViewById<SeekBar>(R.id.seekbar_pass_temp)
+            val tvPass = v.findViewById<TextView>(R.id.tv_pass_temp)
+            val sbDriver = v.findViewById<SeekBar>(R.id.seekbar_driver_temp)
+            if (!state.isDualZone) {
+                sbPass.isEnabled = false
+                sbPass.progress = sbDriver.progress
+                state.passengerTemp = state.driverTemp
+                tvPass.text = "${state.passengerTemp}°C"
+            } else {
+                sbPass.isEnabled = state.isPowerOn && !state.isAutoTemp
+            }
+        }
         updateEnabled(v)
     }
 
-    // 内循环按钮颜色/文字随状态切换
+    private fun updateDualZoneBtn(btn: Button) {
+        if (state.isDualZone) {
+            btn.text = "双区空调：开"
+            btn.backgroundTintList = ColorStateList.valueOf(0xFF2196F3.toInt())
+            btn.setTextColor(0xFFFFFFFF.toInt())
+        } else {
+            btn.text = "双区空调：关"
+            btn.backgroundTintList = ColorStateList.valueOf(0xFFCCCCCC.toInt())
+            btn.setTextColor(0xFF333333.toInt())
+        }
+    }
     private fun updateCircBtn(btn: Button) {
         if (state.isInnerCirculation) {
             btn.text = "内循环"
@@ -235,10 +261,7 @@ class FloatingWindowService : Service() {
         }
     }
 
-    private fun updateAutoBtn(
-        btn: Button, tvD: TextView, tvP: TextView,
-        sbD: SeekBar, sbP: SeekBar
-    ) {
+    private fun updateAutoBtn(btn: Button, tvD: TextView, tvP: TextView, sbD: SeekBar, sbP: SeekBar) {
         if (state.isAutoTemp) {
             btn.backgroundTintList = ColorStateList.valueOf(0xFF2196F3.toInt())
             btn.setTextColor(0xFFFFFFFF.toInt())
@@ -254,14 +277,11 @@ class FloatingWindowService : Service() {
     }
 
     private fun formatTemp(t: Int, auto: Boolean) = if (auto) "AUTO" else "${t}°C"
-
-    // 风速：0 显示 "自动"，否则显示数字
     private fun fanLabel(n: Int) = if (n == 0) "自动" else n.toString()
 
     private fun updateEnabled(v: View) {
-        val on   = state.isPowerOn
-        val auto = state.isAutoTemp
-        listOf(R.id.seekbar_fan_speed, R.id.rg_blow_mode, R.id.btn_circulation, R.id.btn_auto_temp)
+        val on = state.isPowerOn; val auto = state.isAutoTemp
+        listOf(R.id.seekbar_fan_speed, R.id.rg_blow_mode, R.id.btn_circulation, R.id.btn_auto_temp, R.id.btn_dual_zone)
             .forEach { id -> v.findViewById<View>(id).isEnabled = on }
         listOf(R.id.seekbar_driver_temp, R.id.seekbar_pass_temp)
             .forEach { id -> v.findViewById<View>(id).isEnabled = on && !auto }
@@ -270,16 +290,13 @@ class FloatingWindowService : Service() {
     private fun overlayType() =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        else
-            @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
+        else @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
 
     private fun iconParams() = WindowManager.LayoutParams(
         dp(56), dp(56), overlayType(),
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
         PixelFormat.TRANSLUCENT
-    ).apply {
-        gravity = Gravity.TOP or Gravity.START; x = 20; y = 200
-    }
+    ).apply { gravity = Gravity.TOP or Gravity.START; x = 20; y = 200 }
 
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
 }
