@@ -83,7 +83,9 @@
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
-                android:layout_marginBottom="1dp"/>
+                android:layout_marginBottom="1dp"
+                android:progressTint="@color/red"
+                android:progressBackgroundTint="@color/ac_bule"/>
 
             <!-- 温度值显示在滑块下方 -->
             <TextView
@@ -140,7 +142,9 @@
                 android:max="15"
                 android:progress="7"
                 android:rotation="90"
-                android:layout_marginBottom="1dp"/>
+                android:layout_marginBottom="1dp"
+                android:progressTint="@color/red"
+                android:progressBackgroundTint="@color/ac_bule"/>
 
             <TextView
                 android:id="@+id/tv_pass_temp"
@@ -154,7 +158,15 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <!-- ⑥ 双区空调 — 全宽切换按钮 -->
+    <Button
+        android:id="@+id/btn_dual_zone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="双区空调：关"
+        android:textSize="14sp"
+        android:backgroundTint="#CCCCCC"
+        android:textColor="#333333"/>
     <!-- 分割线 -->
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
@@ -263,15 +275,5 @@
     <!-- 分割线 -->
     <View android:layout_width="match_parent" android:layout_height="1dp"
         android:layout_marginVertical="6dp" android:background="@color/divider"/>
-
-    <!-- ⑥ 双区空调 — 全宽切换按钮 -->
-    <Button
-        android:id="@+id/btn_dual_zone"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="双区空调：关"
-        android:textSize="14sp"
-        android:backgroundTint="#CCCCCC"
-        android:textColor="#333333"/>
 
 </LinearLayout>
