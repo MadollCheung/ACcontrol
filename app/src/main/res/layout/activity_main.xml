@@ -2,49 +2,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    android:padding="32dp"
-    android:background="#F5F5F5">
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_ac_launcher"
-        android:layout_marginBottom="24dp"/>
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#1C1C1E">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="空调悬浮控制"
-        android:textSize="22sp"
+        android:text="❄ 空调控制"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/text_primary"
         android:layout_marginBottom="8dp"/>
 
     <TextView
-        android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/permission_denied"
-        android:textSize="13sp"
-        android:textColor="@color/text_secondary"
-        android:gravity="center"
+        android:text="哈弗 H6 车机版"
+        android:textColor="#8E8E93"
+        android:textSize="14sp"
         android:layout_marginBottom="32dp"/>
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:text="@string/btn_start"
-        android:backgroundTint="@color/colorPrimary"
-        android:layout_marginBottom="16dp"/>
+    <!-- 状态显示 -->
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2C2C2E"
+        android:padding="16dp"
+        android:textColor="#EBEBF5"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginBottom="24dp"/>
 
+    <!-- 开启辅助功能 -->
     <Button
-        android:id="@+id/btn_stop"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:text="@string/btn_stop"
-        android:backgroundTint="#757575"/>
+        android:id="@+id/btn_enable_accessibility"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="① 开启辅助功能权限"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FF9F0A"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 启动面板 -->
+    <Button
+        android:id="@+id/btn_start_service"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="② 启动悬浮面板"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#0A84FF"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 停止面板 -->
+    <Button
+        android:id="@+id/btn_stop_service"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="停止悬浮面板"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3A3A3C"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="首次使用需在「设置 → 无障碍 → 空调控制辅助服务」中开启权限"
+        android:textColor="#636366"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_marginTop="24dp"/>
 
 </LinearLayout>
