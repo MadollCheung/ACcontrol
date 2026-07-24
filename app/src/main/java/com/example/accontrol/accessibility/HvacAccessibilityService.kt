@@ -106,7 +106,7 @@ class HvacAccessibilityService : AccessibilityService() {
         val bundle = Bundle().apply {
             putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level.toFloat())
         }
-        val result = node.performAction(AccessibilityNodeInfo.ACTION_SET_PROGRESS, bundle)
+        putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level.toFloat())
         node.recycle()
         Log.d(TAG, "设置风速 $level: $result")
         return result
