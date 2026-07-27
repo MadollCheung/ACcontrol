@@ -6,4 +6,6 @@
     <string name="btn_stop_service">停止悬浮面板</string>
     <string name="btn_enable_accessibility">开启辅助功能权限</string>
     <string name="tip_accessibility_needed">请先开启辅助功能权限才能控制空调</string>
+    <string name="permission_granted">已授予权限</string>
+    <string name="permission_denied">请授予「显示在其他应用上层」权限</string>
 </resources>
