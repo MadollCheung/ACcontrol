@@ -128,20 +128,32 @@ class HvacAccessibilityService : AccessibilityService() {
      * 设置风速（通过 SeekBar ACTION_SET_PROGRESS）
      * @param level 0(自动/最低) ~ 5(最高)
      */
-    fun setFanSpeed(level: Int) {
-        val node = findNodeById(ID_FAN_SEEKBAR)
-        if (node == null) {
-            Log.w(TAG, "未找到风速 SeekBar，尝试点击风速图标")
-            performClick(ID_FAN_IV)
-            return
-        }
-        val args = Bundle().apply {
-            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level)  // Use Int, not Float
-        }
-        val ok = node.performAction(AccessibilityNodeInfo.ACTION_SET_PROGRESS, args)
-        node.recycle()
-        Log.d(TAG, "风速 level=$level 设置结果=$ok")
+ fun setFanSpeed(level: Int) {
+    val node = findNodeById(ID_FAN_SEEKBAR)
+    if (node == null) {
+        Log.w(TAG, "未找到风速 SeekBar，尝试点击风速图标")
+        performClick(ID_FAN_IV)
+        return
     }
+    
+    // Use scroll actions to adjust SeekBar
+    val currentProgress = node.rangeInfo?.current?.toInt() ?: 0
+    val targetProgress = level
+    val diff = targetProgress - currentProgress
+    
+    val ok = if (diff > 0) {
+        repeat(diff) { node.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) }
+        true
+    } else if (diff < 0) {
+        repeat(Math.abs(diff)) { node.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) }
+        true
+    } else {
+        true
+    }
+    
+    node.recycle()
+    Log.d(TAG, "风速 level=$level 设置结果=$ok")
+}
 
     /**
      * 通用点击：传入短名（如 "iv_hvac_power"）或完整 resource-id
