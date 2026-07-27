@@ -136,7 +136,7 @@ class HvacAccessibilityService : AccessibilityService() {
             return
         }
         val args = Bundle().apply {
-            putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level.toFloat())
+            putInt(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level)  // Use Int, not Float
         }
         val ok = node.performAction(AccessibilityNodeInfo.ACTION_SET_PROGRESS, args)
         node.recycle()
