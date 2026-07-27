@@ -251,11 +251,11 @@ class FloatingWindowService : Service() {
     }
     private fun updateCircBtn(btn: Button) {
         if (state.isInnerCirculation) {
-            btn.text = "内循环"
+            btn.text = "\uD83D\uDD01    内循环    "
             btn.backgroundTintList = ColorStateList.valueOf(0xFF2196F3.toInt())
             btn.setTextColor(0xFFFFFFFF.toInt())
         } else {
-            btn.text = "外循环"
+            btn.text = "\uD83D\uDD00    外循环    "
             btn.backgroundTintList = ColorStateList.valueOf(0xFFCCCCCC.toInt())
             btn.setTextColor(0xFF333333.toInt())
         }
