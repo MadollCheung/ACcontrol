@@ -21,7 +21,7 @@ class FloatingWindowService : Service() {
     private var panelLp: WindowManager.LayoutParams? = null
     private var isPanelOpen = false
     private val state = AcState()
-    private val ctrl = AcController()
+    private val ctrl = AcController(this)
 
     // 温度范围 17~32°C，SeekBar max=15
     // progress=0  → 32°C（滑到顶，rotation=270 时是视觉最高位）
