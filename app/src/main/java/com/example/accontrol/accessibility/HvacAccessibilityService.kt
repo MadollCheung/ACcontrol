@@ -1,141 +1,196 @@
 package com.example.accontrol.accessibility
 
 import android.accessibilityservice.AccessibilityService
-import android.accessibilityservice.GestureDescription
-import android.graphics.Path
 import android.os.Bundle
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 
 /**
- * GWM 哈弗 H6 车机 HVAC 辅助功能服务
- * 包名：com.gwm.dynamiclauncher
- * 通过查找原生控件 ID 模拟点击来控制空调
+ * HVAC 无障碍服务 - 基于 R.java 真实 ID
+ *
+ * 目标包：com.gwm.dynamiclauncher（灵控球）
+ *
+ * 关键控件 ID（来自车机 R.java R.id 类）：
+ *   iv_hvac_power        = 2131362829  ← 电源
+ *   iv_hvac_auto         = 2131362824  ← AUTO
+ *   iv_hvac_ac           = 2131362823  ← A/C
+ *   iv_hvac_cycle_mode   = 2131362826  ← 内/外循环
+ *   iv_hvac_zone         = 2131362830  ← 单/双区
+ *   iv_hvac_blower_mode  = 2131362825  ← 出风模式
+ *   iv_hvac_fan_speed    = 2131362827  ← 风速图标
+ *   hvac_view_add        = 2131362660  ← 温度+
+ *   hvac_view_subtract   = 2131362662  ← 温度-
+ *   hvac_fan_speed_seek_bar = 2131362658  ← 风速滑条
+ *   hvac_tv_temperature  = 2131362659  ← 温度文本
+ *   btn_hvac_ac          = 2131231266  ← 备用布局 A/C
+ *   btn_hvac_auto        = 2131231267  ← 备用布局 AUTO
+ *   btn_hvac_cycle_mode  = 2131231268  ← 备用布局循环
+ *   btn_hvac_zone        = 2131231270  ← 备用布局区域
  */
 class HvacAccessibilityService : AccessibilityService() {
 
     companion object {
-        private const val TAG = "HvacAccessibility"
-        const val GWM_PACKAGE = "com.gwm.dynamiclauncher"
+        private const val TAG = "HvacSvc"
+        const val PKG = "com.gwm.dynamiclauncher"
 
-        // 原生 HVAC 按钮资源名
-        const val ID_BTN_AUTO       = "btn_hvac_auto"
-        const val ID_BTN_CYCLE_MODE = "btn_hvac_cycle_mode"
-        const val ID_BTN_ZONE       = "btn_hvac_zone"
-        const val ID_BTN_AC         = "btn_hvac_ac"
-        const val ID_IV_POWER       = "iv_hvac_power"
-        const val ID_TV_TEMPERATURE = "hvac_tv_temperature"
-        const val ID_FAN_SEEKBAR    = "hvac_fan_speed_seek_bar"
+        // iv_hvac_* 系列（主悬浮窗）
+        private const val ID_POWER       = "$PKG:id/iv_hvac_power"
+        private const val ID_AUTO        = "$PKG:id/iv_hvac_auto"
+        private const val ID_AC          = "$PKG:id/iv_hvac_ac"
+        private const val ID_CYCLE_MODE  = "$PKG:id/iv_hvac_cycle_mode"
+        private const val ID_ZONE        = "$PKG:id/iv_hvac_zone"
+        private const val ID_BLOWER_MODE = "$PKG:id/iv_hvac_blower_mode"
+        private const val ID_FAN_IV      = "$PKG:id/iv_hvac_fan_speed"
 
-        // 温度增减按钮
-        const val ID_VIEW_TEMP_ADD  = "hvac_view_add"
-        const val ID_VIEW_TEMP_SUB  = "hvac_view_subtract"
+        // 温度加减按钮
+        private const val ID_TEMP_ADD    = "$PKG:id/hvac_view_add"
+        private const val ID_TEMP_SUB    = "$PKG:id/hvac_view_subtract"
+
+        // 风速 SeekBar + 温度文本
+        private const val ID_FAN_SEEKBAR = "$PKG:id/hvac_fan_speed_seek_bar"
+        private const val ID_TV_TEMP     = "$PKG:id/hvac_tv_temperature"
+
+        // btn_hvac_* 系列（备用/展开面板）
+        private const val ID_BTN_AC      = "$PKG:id/btn_hvac_ac"
+        private const val ID_BTN_AUTO    = "$PKG:id/btn_hvac_auto"
+        private const val ID_BTN_CYCLE   = "$PKG:id/btn_hvac_cycle_mode"
+        private const val ID_BTN_ZONE    = "$PKG:id/btn_hvac_zone"
 
         @Volatile
         var instance: HvacAccessibilityService? = null
     }
 
+    // ── 生命周期 ────────────────────────────────────────────────────
+
     override fun onServiceConnected() {
         super.onServiceConnected()
         instance = this
-        Log.d(TAG, "HvacAccessibilityService 已连接")
-    }
-
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
-
-    override fun onInterrupt() {
-        Log.d(TAG, "HvacAccessibilityService 中断")
+        Log.i(TAG, "HVAC 辅助服务已连接")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         instance = null
+        Log.i(TAG, "HVAC 辅助服务已断开")
     }
 
-    // ==================== 对外接口 ====================
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
+    override fun onInterrupt() {}
 
-    /** 点击 AUTO 按钮 */
-    fun clickAuto(): Boolean = clickById(ID_BTN_AUTO)
+    // ── 公开操作 API ────────────────────────────────────────────────
 
-    /** 点击 内/外循环 切换 */
-    fun clickCycleMode(): Boolean = clickById(ID_BTN_CYCLE_MODE)
+    /** 电源开关 */
+    fun clickPower() = performClick(ID_POWER)
 
-    /** 点击 双区 按钮 */
-    fun clickZone(): Boolean = clickById(ID_BTN_ZONE)
+    /** AUTO 自动模式（主布局 + 备用布局各试一次） */
+    fun clickAuto() = performClick(ID_AUTO).also { if (!it) performClick(ID_BTN_AUTO) }
 
-    /** 点击 AC 按钮 */
-    fun clickAc(): Boolean = clickById(ID_BTN_AC)
+    /** A/C 压缩机开关 */
+    fun clickAc() = performClick(ID_AC).also { if (!it) performClick(ID_BTN_AC) }
 
-    /** 升温（点 + 按钮） */
-    fun tempUp(): Boolean = clickById(ID_VIEW_TEMP_ADD)
+    /** 内/外循环切换 */
+    fun clickCycleMode() = performClick(ID_CYCLE_MODE).also { if (!it) performClick(ID_BTN_CYCLE) }
 
-    /** 降温（点 - 按钮） */
-    fun tempDown(): Boolean = clickById(ID_VIEW_TEMP_SUB)
+    /** 单/双区切换 */
+    fun clickZone() = performClick(ID_ZONE).also { if (!it) performClick(ID_BTN_ZONE) }
+
+    /** 出风模式循环切换 */
+    fun clickBlowerMode() = performClick(ID_BLOWER_MODE)
+
+    /** 温度 +0.5°C */
+    fun tempUp() = performClick(ID_TEMP_ADD)
+
+    /** 温度 -0.5°C */
+    fun tempDown() = performClick(ID_TEMP_SUB)
 
     /**
-     * 设置温度到目标值
-     * 先读当前温度 TextView，再多次点击加减按钮
+     * 设置目标温度（读取当前温度后反复加减）
+     * @param target 目标温度 17.0 ~ 32.0（支持 0.5 步进）
      */
-    fun setTemperature(target: Float): Boolean {
-        val current = getCurrentTemp() ?: run {
-            Log.w(TAG, "无法读取当前温度，改用相对调节")
-            return false
+    fun setTemperature(target: Float) {
+        val current = readCurrentTemp()
+        if (current == null) {
+            Log.w(TAG, "无法读取当前温度，跳过精确调节")
+            return
         }
-        Log.d(TAG, "当前温度: $current，目标: $target")
         val diff = target - current
-        val steps = Math.abs(diff * 2).toInt() // 0.5°C/步
-        if (steps == 0) return true
-        val btnId = if (diff > 0) ID_VIEW_TEMP_ADD else ID_VIEW_TEMP_SUB
-        repeat(steps) {
-            clickById(btnId)
-            Thread.sleep(80)
+        val steps = Math.round(Math.abs(diff) / 0.5f)
+        Log.d(TAG, "温度: 当前=$current 目标=$target 步数=$steps")
+        if (diff > 0) {
+            repeat(steps) { performClick(ID_TEMP_ADD); Thread.sleep(150) }
+        } else if (diff < 0) {
+            repeat(steps) { performClick(ID_TEMP_SUB); Thread.sleep(150) }
         }
-        return true
     }
 
     /**
-     * 设置风速（通过 SeekBar 拖拽）
-     * level: 0~7
+     * 设置风速（通过 SeekBar ACTION_SET_PROGRESS）
+     * @param level 0(自动/最低) ~ 5(最高)
      */
-    fun setFanSpeed(level: Int): Boolean {
-        val node = findNodeById(ID_FAN_SEEKBAR) ?: run {
-            Log.w(TAG, "找不到风速 SeekBar")
-            return false
+    fun setFanSpeed(level: Int) {
+        val node = findNodeById(ID_FAN_SEEKBAR)
+        if (node == null) {
+            Log.w(TAG, "未找到风速 SeekBar，尝试点击风速图标")
+            performClick(ID_FAN_IV)
+            return
         }
-        val bundle = Bundle().apply {
+        val args = Bundle().apply {
             putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level.toFloat())
         }
-        putFloat(AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE, level.toFloat())
+        val ok = node.performAction(AccessibilityNodeInfo.ACTION_SET_PROGRESS, args)
         node.recycle()
-        Log.d(TAG, "设置风速 $level: $result")
-        return result
+        Log.d(TAG, "风速 level=$level 设置结果=$ok")
     }
 
-    // ==================== 内部工具 ====================
+    /**
+     * 通用点击：传入短名（如 "iv_hvac_power"）或完整 resource-id
+     * 供 AcController 调用
+     */
+    fun clickById(shortName: String): Boolean {
+        val fullId = if (shortName.contains(":")) shortName else "$PKG:id/$shortName"
+        return performClick(fullId)
+    }
 
-    private fun clickById(resName: String): Boolean {
-        val node = findNodeById(resName) ?: run {
-            Log.w(TAG, "找不到控件: $resName")
+    // ── 内部工具 ─────────────────────────────────────────────────────
+
+    /** 查找节点并点击 */
+    private fun performClick(resId: String): Boolean {
+        val node = findNodeById(resId) ?: run {
+            Log.v(TAG, "未找到节点: $resId")
             return false
         }
-        val result = node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+        val ok = node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
         node.recycle()
-        Log.d(TAG, "点击 $resName: $result")
-        return result
+        Log.d(TAG, "点击 $resId → $ok")
+        return ok
     }
 
-    private fun findNodeById(resName: String): AccessibilityNodeInfo? {
+    /** 查找节点：先用系统 API，失败则递归遍历 */
+    private fun findNodeById(resId: String): AccessibilityNodeInfo? {
         val root = rootInActiveWindow ?: return null
-        val fullId = "$GWM_PACKAGE:id/$resName"
-        val nodes = root.findAccessibilityNodeInfosByViewId(fullId)
-        return if (nodes.isNullOrEmpty()) null else nodes[0]
+        val nodes = root.findAccessibilityNodeInfosByViewId(resId)
+        if (!nodes.isNullOrEmpty()) return nodes[0]
+        return traverseTree(root, resId)
     }
 
-    private fun getCurrentTemp(): Float? {
-        val node = findNodeById(ID_TV_TEMPERATURE) ?: return null
-        val text = node.text?.toString() ?: return null
+    /** 递归遍历无障碍树 */
+    private fun traverseTree(node: AccessibilityNodeInfo, resId: String): AccessibilityNodeInfo? {
+        if (node.viewIdResourceName == resId) return node
+        for (i in 0 until node.childCount) {
+            val child = node.getChild(i) ?: continue
+            val found = traverseTree(child, resId)
+            if (found != null) return found
+            if (found == null) child.recycle()
+        }
+        return null
+    }
+
+    /** 读取当前温度（从 hvac_tv_temperature 文本，如 "25°C" → 25.0f） */
+    private fun readCurrentTemp(): Float? {
+        val node = findNodeById(ID_TV_TEMP) ?: return null
+        val raw = node.text?.toString()
         node.recycle()
-        return text.replace("°C", "").replace("°", "").trim().toFloatOrNull()
+        return raw?.replace("°C", "")?.replace("°", "")?.trim()?.toFloatOrNull()
     }
 }
