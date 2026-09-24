@@ -21,7 +21,7 @@ class FloatingWindowService : Service() {
     private var panelLp: WindowManager.LayoutParams? = null
     private var isPanelOpen = false
     private val state = AcState()
-    private val ctrl = AcController(this)
+    private val ctrl = AcController()
 
     // 温度范围 17~32°C，SeekBar max=15
     // progress=0  → 32°C（滑到顶，rotation=270 时是视觉最高位）
@@ -251,12 +251,12 @@ class FloatingWindowService : Service() {
     }
     private fun updateCircBtn(btn: Button) {
         if (state.isInnerCirculation) {
-            btn.text = "\uD83D\uDD01    内循环    \uD83D\uDD01"
-            btn.backgroundTintList = ColorStateList.valueOf(0xFFff9f0a.toInt())
+            btn.text = "内循环"
+            btn.backgroundTintList = ColorStateList.valueOf(0xFF2196F3.toInt())
             btn.setTextColor(0xFFFFFFFF.toInt())
         } else {
-            btn.text = "\uD83D\uDD00    外循环    \uD83D\uDD00"
-            btn.backgroundTintList = ColorStateList.valueOf(0xFF15ac70.toInt())
+            btn.text = "外循环"
+            btn.backgroundTintList = ColorStateList.valueOf(0xFFCCCCCC.toInt())
             btn.setTextColor(0xFF333333.toInt())
         }
     }

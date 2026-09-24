@@ -8,8 +8,7 @@ import com.example.accontrol.service.FloatingWindowService
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            val serviceIntent = Intent(context, FloatingWindowService::class.java)
-            context.startForegroundService(serviceIntent)
+            context.startForegroundService(Intent(context, FloatingWindowService::class.java))
         }
     }
 }
