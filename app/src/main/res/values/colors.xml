@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1976D2</color>
-    <color name="colorPrimaryDark">#1565C0</color>
-    <color name="colorAccent">#42A5F5</color>
-    <color name="ac_blue">#1E88E5</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="ac_blue">#1565C0</color>
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
-    <color name="divider">#E0E0E0</color>
-    <color name="panel_bg">#FFFFFFFF</color>
-    <color name="icon_bg">#CC1976D2</color>
-    <color name="your_color">#1976D2</color>  <!-- Add this line -->
-    <color name="ac_red">#F9B9BA</color>
+    <color name="divider">#BDBDBD</color>
 </resources>
