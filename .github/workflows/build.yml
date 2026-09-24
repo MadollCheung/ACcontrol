@@ -27,7 +27,7 @@ jobs:
 
       - name: 编译 Debug APK
         env:
-          JAVA_TOOL_OPTIONS: ""
+          JAVA_TOOL_OPTIONS=-Xmx64m
           GRADLE_OPTS: ""
         run: ./gradlew --no-daemon clean assembleDebug --stacktrace
 
